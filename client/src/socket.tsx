@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 
 export const socket = io(import.meta.env.VITE_SOCKET_SERVER, {
     autoConnect: false,
+    reconnectionAttempts: 3
 });
 
 const socketManager = {
