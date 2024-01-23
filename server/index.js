@@ -17,8 +17,6 @@ io.on('connection', (socket) => {
   // socket.emit('fuark', { message: 'cursed connection' });
 
   socket.on('sendMessage', (message) => {
-    console.log('Received message from client:', message);
-
     console.log('Message received on the server:', message);
   });
 });

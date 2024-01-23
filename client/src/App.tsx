@@ -5,9 +5,6 @@ import  useSocket  from './useSocket';
 
 function App() {
   const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
-  const handleMessage = (message: string) => {
-    console.log('Received message from server:', message);
-  };
 
   // const { emit: sendMessage } = useSocket('sendMessage', handleMessage);
 
@@ -30,11 +27,9 @@ function App() {
   const handleSendMessage = (e) => {
     e.preventDefault();
 
-    emitEvent('sendMessage', { message: 'Zoran' });
+    emitEvent('sendMessage', { message: 'Zoran', nesto: 'nesto', wtf: 'wtf' });
 
   };
-
-  // const x = useMemo(() => isConnected, [isConnected]);
 
   useEffect(() => {
     console.log('aaa');
