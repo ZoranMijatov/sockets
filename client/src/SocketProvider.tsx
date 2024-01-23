@@ -3,7 +3,11 @@ import { SocketContext } from './socket';
 import { useEffect, useRef } from 'react';
 
 const SocketProvider: React.FC = ({ children }: any) => {
-  const socket = useRef(socketIOClient(import.meta.env.VITE_SOCKET_SERVER));
+  const socket = useRef(
+    socketIOClient(import.meta.env.VITE_SOCKET_SERVER, {
+      // auth: {token}
+    }),
+  );
 
   useEffect(() => {
     socket.current.on('connect', () => {

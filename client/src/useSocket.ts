@@ -1,20 +1,27 @@
-import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import { useContext, useEffect, useState } from 'react';
+import { SocketContext } from './socket';
 
-const useSocket = (serverUrl: any) => {
-  const [socket, setSocket] = useState(null);
+const useSocket = () => {
+  const { socket } = useContext(SocketContext);
+  const [receivedMessage, setReceivedMessage] = useState('');
 
   useEffect(() => {
-    const newSocket = io(serverUrl);
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.disconnect();
+    const handleReceivedMessage = (data: any) => {
+      if (socket) {
+        setReceivedMessage(data);
+      }
     };
-  }, [serverUrl]);
 
-  const emitEvent = (eventName, data) => {
+    if (socket) {
+      socket.on('hello', handleReceivedMessage);
+
+      return () => {
+        socket.off('hello', handleReceivedMessage);
+      };
+    }
+  }, [socket]);
+
+  const emitEvent = (eventName: string, data: any) => {
     if (socket) {
       socket.emit(eventName, data);
     } else {
@@ -22,7 +29,15 @@ const useSocket = (serverUrl: any) => {
     }
   };
 
-  return { emitEvent };
+  const broadcastMessage = (eventName: string, data: any) => {
+    if (socket) {
+      socket.broadcast.emit(eventName, data);
+    } else {
+      console.error('Socket not connected');
+    }
+  };
+
+  return { emitEvent, receivedMessage, broadcastMessage };
 };
 
 export default useSocket;

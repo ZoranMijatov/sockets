@@ -22,6 +22,7 @@ io.on('connection', (socket) => {
 });
 
 app.get('/api', (req, res) => {
+  io.emit('hello', 'Hello from the server!');
   res.json({
     message: 'Wtf',
   });
