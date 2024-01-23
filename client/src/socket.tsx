@@ -6,6 +6,8 @@ export const socket = io(import.meta.env.VITE_SOCKET_SERVER, {
     reconnectionAttempts: 3
 });
 
+export const SocketContext = createContext<any>({socket: null});
+
 const socketManager = {
     socketMessageListeners: new Set(),
     io: null,

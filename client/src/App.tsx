@@ -1,9 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { socket } from './socket';
+import  useSocket  from './useSocket';
 
 function App() {
   const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+  const handleMessage = (message: string) => {
+    console.log('Received message from server:', message);
+  };
+
+  // const { emit: sendMessage } = useSocket('sendMessage', handleMessage);
 
   const handleSubmit = (event: any) => (
     event.preventDefault(),
@@ -19,11 +25,20 @@ function App() {
     })()
   }, [])
 
+  const { emitEvent } = useSocket(import.meta.env.VITE_SOCKET_SERVER);
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+
+    emitEvent('sendMessage', { message: 'Zoran' });
+
+  };
+
   // const x = useMemo(() => isConnected, [isConnected]);
 
   useEffect(() => {
     console.log('aaa');
-    socket.connect();
+    // socket.connect();
   
     function onConnect() {
       setIsConnected(true);
@@ -46,18 +61,15 @@ function App() {
 
 console.log('first', isConnected, import.meta.env.VITE_SOCKET_SERVER)
   return (
-    <form onSubmit={(ev) => {
-      ev.preventDefault();
-      return socket.emit("blabla", { wtf: "wtf" });
-    }}>
+    <form onSubmit={handleSendMessage}>
       <label htmlFor="name">Name</label>
-      <input name="name" type="text" required />
+      <input name="name" type="text"  />
 
       <label htmlFor="email">E-mail</label>
-      <input name="email" type="email" required />
+      <input name="email" type="email"  />
 
       <label htmlFor="country">Country</label>
-      <input name="country" type="text" required />
+      <input name="country" type="text"  />
       <button type="submit">Submit</button>
     </form>
   );
