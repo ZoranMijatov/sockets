@@ -1,6 +1,6 @@
+import { useEffect, useRef } from 'react';
 import socketIOClient from 'socket.io-client';
 import { SocketContext } from './socket';
-import { useEffect, useRef } from 'react';
 
 const SocketProvider: React.FC = ({ children }: any) => {
   const socket = useRef(
@@ -11,11 +11,11 @@ const SocketProvider: React.FC = ({ children }: any) => {
 
   useEffect(() => {
     socket.current.on('connect', () => {
-      console.log('SocketIO: Connected and authenticated');
+      console.log('Connected');
     });
 
     socket.current.on('error', (msg: string) => {
-      console.error('SocketIO: Error', msg);
+      console.error('Error', msg);
     });
 
     return () => {

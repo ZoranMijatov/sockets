@@ -1,18 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import './App.css';
-// import { socket } from './socket';
+import { socket } from './socket';
 import useSocket from './useSocket';
 
 function App() {
   // const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
 
-  // const { emit: sendMessage } = useSocket('sendMessage', handleMessage);
-
   const handleSubmit = (event: any) => (
     event.preventDefault(),
     console.log(
       Object.fromEntries(new FormData(event.currentTarget)),
-      new FormData(event.currentTarget),
+      new FormData(event.currentTarget)
     ),
     event.currentTarget.reset()
   );
@@ -30,7 +28,7 @@ function App() {
   const handleSendMessage = (e) => {
     e.preventDefault();
 
-    emitEvent('sendMessage', { message: 'Zoran', nesto: 'nesto', wtf: 'wtf' });
+    emitEvent('sendMessage', { message: 'Zoran' });
   };
 
   return (
@@ -43,7 +41,6 @@ function App() {
 
       <label htmlFor="country">Country</label>
       <input name="country" type="text" />
-      <button type="submit">Submit</button>
     </form>
   );
 }
